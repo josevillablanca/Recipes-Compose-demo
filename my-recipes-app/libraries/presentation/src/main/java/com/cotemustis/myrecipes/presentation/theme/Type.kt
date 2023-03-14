@@ -1,4 +1,4 @@
-package com.cotemustis.myrecipes.ui.theme
+package com.cotemustis.myrecipes.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

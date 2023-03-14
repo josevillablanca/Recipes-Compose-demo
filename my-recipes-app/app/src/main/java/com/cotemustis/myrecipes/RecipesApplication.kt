@@ -1,7 +1,7 @@
 package com.cotemustis.myrecipes
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-
-class RecipesApplication : Application() {
-}
+@HiltAndroidApp
+class RecipesApplication : Application() {}

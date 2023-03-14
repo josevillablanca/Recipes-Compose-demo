@@ -1,4 +1,4 @@
-package com.cotemustis.myrecipes.ui.theme
+package com.cotemustis.myrecipes.presentation.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
