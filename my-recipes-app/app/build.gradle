@@ -39,7 +39,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.2.0'
+        kotlinCompilerExtensionVersion compose_compiler_version
     }
     packagingOptions {
         resources {
@@ -49,6 +49,9 @@ android {
 }
 
 dependencies {
+    implementation project(":libraries:data")
+    implementation project(":libraries:domain")
+    implementation project(":libraries:presentation")
 
     //Commons
     testImplementation 'junit:junit:4.13.2'

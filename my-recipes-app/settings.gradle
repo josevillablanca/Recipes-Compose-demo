@@ -14,3 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "My Recipes"
 include ':app'
+include ':libraries:presentation'
+include ':libraries:domain'
+include ':libraries:data'

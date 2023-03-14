@@ -1,10 +1,13 @@
 buildscript {
     ext {
+        compose_compiler_version = '1.2.0'
         compose_bom_version = '2023.01.00'
         kotlin_version = '1.7.0'
         navigation_version = '2.5.3'
         hilt_version = '2.44'
-        roomVersion = '2.5.0'
+        room_version = '2.5.0'
+        glide_version = '4.15.0'
+        retrofit_version = '2.9.0'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
