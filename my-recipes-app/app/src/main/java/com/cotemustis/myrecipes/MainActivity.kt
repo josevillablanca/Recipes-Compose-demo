@@ -22,13 +22,13 @@ class MainActivity : ComponentActivity() {
             MyRecipesTheme {
                 NavHost(navController = navController, startDestination = RecipeListRoute.route) {
                     composable(RecipeListRoute.route) {
-                        RecipeListScreen()
+                        RecipeListScreen(navController)
                     }
                     composable(RecipeDetailRoute.route) {
-                        RecipeDetailScreen()
+                        RecipeDetailScreen(navController)
                     }
                     composable(RecipeMapRoute.route) {
-                        RecipeMapScreen()
+                        RecipeMapScreen(navController)
                     }
                 }
             }

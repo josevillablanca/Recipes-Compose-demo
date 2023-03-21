@@ -20,6 +20,9 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        manifestPlaceholders = [googleMapsApiKey: "${properties.getProperty('MAPS_API_KEY')}"]
     }
 
     buildTypes {
@@ -79,6 +82,10 @@ dependencies {
 
     // Navigation
     implementation "androidx.navigation:navigation-compose:$navigation_version"
+
+    //Google Maps
+    implementation 'com.google.maps.android:maps-compose:2.8.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
     //Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"

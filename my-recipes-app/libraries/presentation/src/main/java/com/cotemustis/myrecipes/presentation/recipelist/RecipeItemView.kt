@@ -27,7 +27,7 @@ fun RecipeItemView(recipe: Recipe, onItemSelected: (Recipe) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
             .clickable {
                 onItemSelected(recipe)
             },
@@ -58,7 +58,6 @@ fun RecipeItemView(recipe: Recipe, onItemSelected: (Recipe) -> Unit) {
                 Text(
                     text = recipe.name,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.Monospace,
                     maxLines = 2
                 )
             }

@@ -11,13 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.cotemustis.myrecipes.domain.model.Recipe
 import com.cotemustis.myrecipes.presentation.ui.RecipeToolbar
+import com.cotemustis.myrecipes.presentation.utils.NavRoutes
+import com.cotemustis.myrecipes.presentation.utils.NavRoutes.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-@Preview
-fun RecipeListScreen() {
+fun RecipeListScreen(navController: NavHostController) {
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
     Scaffold(
@@ -28,17 +30,19 @@ fun RecipeListScreen() {
         },
         scaffoldState = scaffoldState
     ) {
-        RecipesListView()
+        RecipesListView {
+            navController.navigate(RecipeDetailRoute.route)
+        }
     }
 }
 
 @Composable
-fun RecipesListView() {
+fun RecipesListView(onItemClick: (Recipe) -> Unit) {
     val context = LocalContext.current
     LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         items(getRecipes()) { recipe ->
             RecipeItemView(recipe) {
-                Toast.makeText(context, it.name, Toast.LENGTH_SHORT).show()
+                onItemClick(recipe)
             }
         }
     }
