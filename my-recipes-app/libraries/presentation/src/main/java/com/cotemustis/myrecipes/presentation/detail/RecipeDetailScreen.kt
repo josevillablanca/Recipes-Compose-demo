@@ -26,7 +26,7 @@ import coil.request.ImageRequest
 import com.cotemustis.myrecipes.domain.model.Recipe
 import com.cotemustis.myrecipes.presentation.R
 import com.cotemustis.myrecipes.presentation.detail.uistate.RecipeDetailUiState
-import com.cotemustis.myrecipes.presentation.utils.NavRoutes
+import com.cotemustis.myrecipes.presentation.utils.NavRoutes.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -37,6 +37,7 @@ fun RecipeDetailScreen(
     val scaffoldState = rememberScaffoldState()
     val uiState by detailViewModel.uiState
     val titleNameState by detailViewModel.titleName
+    val latLngState by detailViewModel.latLngState
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -58,7 +59,15 @@ fun RecipeDetailScreen(
         },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate(NavRoutes.RecipeMapRoute.route) }) {
+            FloatingActionButton(onClick = {
+                navController.navigate(
+                    RecipeMapRoute.createRoute(
+                        titleNameState,
+                        latLngState.latitude.toString(),
+                        latLngState.longitude.toString()
+                    )
+                )
+            }) {
                 Icon(
                     imageVector = Icons.Default.Map,
                     contentDescription = "FAB Icon for map location"
