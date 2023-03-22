@@ -3,9 +3,11 @@ package com.cotemustis.myrecipes
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.cotemustis.myrecipes.presentation.detail.RecipeDetailScreen
 import com.cotemustis.myrecipes.presentation.map.RecipeMapScreen
 import com.cotemustis.myrecipes.presentation.recipelist.RecipeListScreen
@@ -24,10 +26,18 @@ class MainActivity : ComponentActivity() {
                     composable(RecipeListRoute.route) {
                         RecipeListScreen(navController)
                     }
-                    composable(RecipeDetailRoute.route) {
+                    composable(
+                        RecipeDetailRoute.route,
+                        arguments = listOf(navArgument("recipeId") { type = NavType.LongType })
+                    ) {
                         RecipeDetailScreen(navController)
                     }
-                    composable(RecipeMapRoute.route) {
+                    composable(
+                        RecipeMapRoute.route,
+                        arguments = listOf(
+                            navArgument("latitude") { type = NavType.StringType },
+                            navArgument("longitude") { type = NavType.StringType })
+                    ) {
                         RecipeMapScreen(navController)
                     }
                 }

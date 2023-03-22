@@ -11,6 +11,7 @@ import com.cotemustis.myrecipes.data.utils.singleSourceOfTruthLogic
 import com.cotemustis.myrecipes.domain.model.Recipe
 import com.cotemustis.myrecipes.domain.repository.RecipesRepository
 import com.cotemustis.myrecipes.domain.utils.ResultState
+import com.cotemustis.myrecipes.domain.utils.getResult
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -31,4 +32,7 @@ internal class RecipesRepositoryImpl @Inject constructor(
                 localDataSource.insertRecipes(recipes.map(Recipe::mapFromDomainModel))
             }
         )
+
+    override suspend fun getRecipeById(recipeId: Long): ResultState<Recipe> =
+        getResult { localDataSource.getRecipeById(recipeId).mapToDomainModel() }
 }

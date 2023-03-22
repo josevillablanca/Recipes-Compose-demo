@@ -14,4 +14,7 @@ internal class RecipesLocalDataSourceImpl @Inject constructor(
     override suspend fun insertRecipes(recipes: List<RecipeDatabaseModel>) =
         recipesDao.updateOrInsertRecipes(recipes)
 
+    override suspend fun getRecipeById(recipeId: Long): RecipeDatabaseModel =
+        recipesDao.getRecipeById(recipeId)
+
 }

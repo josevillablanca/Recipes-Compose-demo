@@ -23,5 +23,9 @@ internal interface RecipesDao {
         insertRecipes(recipes)
     }
 
+    @Transaction
+    @Query("SELECT * FROM recipes WHERE id LIKE :recipeId")
+    suspend fun getRecipeById(recipeId: Long): RecipeDatabaseModel
+
     //TODO Search by Name or Ingredients
 }

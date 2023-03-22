@@ -2,8 +2,6 @@ package com.cotemustis.myrecipes.presentation.detail
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -12,34 +10,41 @@ import androidx.compose.material.icons.filled.BrokenImage
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cotemustis.myrecipes.domain.model.Recipe
 import com.cotemustis.myrecipes.presentation.R
-import com.cotemustis.myrecipes.presentation.recipelist.RecipeItemView
+import com.cotemustis.myrecipes.presentation.detail.uistate.RecipeDetailUiState
 import com.cotemustis.myrecipes.presentation.utils.NavRoutes
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun RecipeDetailScreen(navController: NavHostController) {
+fun RecipeDetailScreen(
+    navController: NavHostController,
+    detailViewModel: RecipeDetailViewModel = hiltViewModel()
+) {
     val scaffoldState = rememberScaffoldState()
-    val context = LocalContext.current
+    val uiState by detailViewModel.uiState
+    val titleNameState by detailViewModel.titleName
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(title = {
-                Text(text = detailModel().name)
-            },
+            TopAppBar(
+                title = {
+                    Text(text = titleNameState)
+                },
                 navigationIcon = {
                     IconButton(
                         onClick = { navController.popBackStack() },
@@ -61,23 +66,36 @@ fun RecipeDetailScreen(navController: NavHostController) {
             }
         }
     ) {
-        Column(
-            Modifier
-                .fillMaxWidth()
-        ) {
-            DetailHeader()
-            DetailContent()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        )
+        when (uiState) {
+            RecipeDetailUiState.Error -> Text(text = stringResource(R.string.recipe_detail_error_text))
+            RecipeDetailUiState.Loading -> CircularProgressIndicator()
+            is RecipeDetailUiState.ShowRecipe -> {
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    val recipe = (uiState as RecipeDetailUiState.ShowRecipe).recipe
+                    DetailHeader(recipe)
+                    DetailContent(recipe)
+                }
+            }
         }
     }
 
 }
 
 @Composable
-fun DetailHeader() {
+fun DetailHeader(recipe: Recipe) {
     val context = LocalContext.current
     Box(Modifier.fillMaxWidth()) {
         AsyncImage(
-            model = ImageRequest.Builder(context).data(detailModel().image).crossfade(true).build(),
+            model = ImageRequest.Builder(context).data(recipe.image).crossfade(true).build(),
             contentDescription = "Detail Recipe Image",
             placeholder = rememberVectorPainter(Icons.Filled.BrokenImage),
             contentScale = ContentScale.Crop,
@@ -87,19 +105,19 @@ fun DetailHeader() {
 }
 
 @Composable
-fun DetailContent() {
+fun DetailContent(recipe: Recipe) {
     Column(
         Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        IngredientCard()
-        PreparationCard()
+        IngredientCard(recipe)
+        PreparationCard(recipe)
     }
 }
 
 @Composable
-fun IngredientCard() {
+fun IngredientCard(recipe: Recipe) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -114,10 +132,13 @@ fun IngredientCard() {
                 fontSize = 18.sp
             )
             Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(detailModel().ingredients) { ingredient ->
-                    Text(text = ingredient, fontSize = 14.sp, fontWeight = FontWeight.Light)
-                }
+            recipe.ingredients.forEach { ingredient ->
+                Text(
+                    text = ingredient,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.padding(vertical = 2.dp)
+                )
             }
 
         }
@@ -125,7 +146,7 @@ fun IngredientCard() {
 }
 
 @Composable
-fun PreparationCard() {
+fun PreparationCard(recipe: Recipe) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -140,19 +161,7 @@ fun PreparationCard() {
                 fontSize = 18.sp
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = detailModel().preparation, fontSize = 14.sp, fontWeight = FontWeight.Light)
+            Text(text = recipe.preparation, fontSize = 14.sp, fontWeight = FontWeight.Light)
         }
     }
 }
-
-//Only for test
-fun detailModel(): Recipe =
-    Recipe(
-        id = 5,
-        name = "Pollo al horno con finas hierbas",
-        image = "https://i.blogs.es/6cb690/1366_2000-6/1366_2000.jpg",
-        ingredients = listOf("hola1", "hola2"),
-        latitude = -33.59266164917812,
-        longitude = -71.60426775304816,
-        preparation = "This is a preparation"
-    )

@@ -57,7 +57,7 @@ fun RecipeListScreen(
                             pullRefreshState,
                             isRefreshing
                         ) {
-                            navController.navigate(RecipeDetailRoute.route)
+                            navController.navigate(RecipeDetailRoute.createRoute(it.id))
                         }
                     }
                 }
