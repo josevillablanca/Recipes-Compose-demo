@@ -1,7 +1,7 @@
-package com.cotemustis.myrecipes.domain.model
+package com.cotemustis.myrecipes.data.network.model
 
-data class Recipe(
-    val id: Long,
+internal data class RecipeNetworkModel(
+    val identifier: Long,
     val name: String,
     val image: String,
     val ingredients: List<String>,
