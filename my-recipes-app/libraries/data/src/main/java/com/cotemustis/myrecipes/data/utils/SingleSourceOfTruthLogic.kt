@@ -11,16 +11,16 @@ internal fun singleSourceOfTruthLogic(
     readRemoteData: suspend () -> List<Recipe>,
     saveLocalData: suspend (List<Recipe>) -> Unit
 ): Flow<ResultState<List<Recipe>>> = flow {
-    val localData = getResult { readLocalData() }
 
-    if (localData is ResultState.Success && localData.data.isNotEmpty()) {
-        emit(localData)
+    val remoteData = getResult { readRemoteData() }
+    if (remoteData is ResultState.Success && remoteData.data.isNotEmpty()) {
+        saveLocalData(remoteData.data)
+        val localDataUpdated = getResult { readLocalData() }
+        emit(localDataUpdated)
     } else {
-        val remoteData = getResult { readRemoteData() }
-        if (remoteData is ResultState.Success && remoteData.data.isNotEmpty()) {
-            saveLocalData(remoteData.data)
-            val localDataUpdated = getResult { readLocalData() }
-            emit(localDataUpdated)
+        val localData = getResult { readLocalData() }
+        if (localData is ResultState.Success && localData.data.isNotEmpty()) {
+            emit(localData)
         } else {
             emit(ResultState.Error((remoteData as ResultState.Error).throwable))
         }

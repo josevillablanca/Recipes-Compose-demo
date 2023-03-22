@@ -63,9 +63,11 @@ fun RecipeOriginMapView() {
 
 fun detailModel(): Recipe =
     Recipe(
-        "Pollo al horno con finas hierbas",
-        "https://i.blogs.es/6cb690/1366_2000-6/1366_2000.jpg",
-        "1 pollo entero de aproximadamente 1,8 kg, 1 limón, 1 cebolla, hierbas al gusto (albahaca, tomillo, romero, etc), 10 g de manteca de cerdo y 3 patatas de guarnición.",
-        -33.59266164917812,
-        -71.60426775304816
+        id = 5,
+        name = "Pollo al horno con finas hierbas",
+        image = "https://i.blogs.es/6cb690/1366_2000-6/1366_2000.jpg",
+        ingredients = listOf("hola1", "hola2"),
+        latitude = -33.59266164917812,
+        longitude = -71.60426775304816,
+        preparation = "This is a preparation"
     )

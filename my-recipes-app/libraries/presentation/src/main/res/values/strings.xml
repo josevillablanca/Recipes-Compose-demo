@@ -4,4 +4,6 @@
     <string name="preparation_card_title">Preparación</string>
     <string name="recipe_map_title">Lugar de origen</string>
     <string name="search_placeholder_text">Busca tu receta o por ingredientes</string>
+    <string name="recipes_list_error_text">Hubo un error en tu solicitud, intenta nuevamente</string>
+    <string name="retry">Reintentar</string>
 </resources>

@@ -2,6 +2,8 @@ package com.cotemustis.myrecipes.presentation.detail
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -24,6 +26,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.cotemustis.myrecipes.domain.model.Recipe
 import com.cotemustis.myrecipes.presentation.R
+import com.cotemustis.myrecipes.presentation.recipelist.RecipeItemView
 import com.cotemustis.myrecipes.presentation.utils.NavRoutes
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -61,7 +64,6 @@ fun RecipeDetailScreen(navController: NavHostController) {
         Column(
             Modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
         ) {
             DetailHeader()
             DetailContent()
@@ -112,7 +114,12 @@ fun IngredientCard() {
                 fontSize = 18.sp
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = detailModel().ingredients, fontSize = 14.sp, fontWeight = FontWeight.Light)
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(detailModel().ingredients) { ingredient ->
+                    Text(text = ingredient, fontSize = 14.sp, fontWeight = FontWeight.Light)
+                }
+            }
+
         }
     }
 }
@@ -133,7 +140,7 @@ fun PreparationCard() {
                 fontSize = 18.sp
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = detailModel().ingredients, fontSize = 14.sp, fontWeight = FontWeight.Light)
+            Text(text = detailModel().preparation, fontSize = 14.sp, fontWeight = FontWeight.Light)
         }
     }
 }
@@ -141,9 +148,11 @@ fun PreparationCard() {
 //Only for test
 fun detailModel(): Recipe =
     Recipe(
-        "Pollo al horno con finas hierbas",
-        "https://i.blogs.es/6cb690/1366_2000-6/1366_2000.jpg",
-        "1 pollo entero de aproximadamente 1,8 kg, 1 limón, 1 cebolla, hierbas al gusto (albahaca, tomillo, romero, etc), 10 g de manteca de cerdo y 3 patatas de guarnición.",
-        -33.59266164917812,
-        -71.60426775304816
+        id = 5,
+        name = "Pollo al horno con finas hierbas",
+        image = "https://i.blogs.es/6cb690/1366_2000-6/1366_2000.jpg",
+        ingredients = listOf("hola1", "hola2"),
+        latitude = -33.59266164917812,
+        longitude = -71.60426775304816,
+        preparation = "This is a preparation"
     )
