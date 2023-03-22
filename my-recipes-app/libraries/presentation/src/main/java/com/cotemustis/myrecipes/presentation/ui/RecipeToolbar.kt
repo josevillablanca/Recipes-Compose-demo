@@ -12,14 +12,5 @@ import com.cotemustis.myrecipes.presentation.R
 
 @Composable
 fun RecipeToolbar(onClickItem: (ToolbarOptions) -> Unit) {
-    TopAppBar(
-        title = {
-            Text(text = stringResource(id = R.string.app_name))
-        },
-        actions = {
-            IconButton(onClick = { onClickItem(ToolbarOptions.SEARCH) }) {
-                Icon(imageVector = Icons.Filled.Search, contentDescription = "search")
-            }
-        }
-    )
+
 }

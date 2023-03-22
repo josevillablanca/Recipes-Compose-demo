@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">My Recipes</string>
-    <string name="ingredient_card_title">Ingredients</string>
-    <string name="preparation_card_title">Preparation</string>
-    <string name="recipe_map_title">Recipe Location Origin</string>
+    <string name="app_name">Mis Recetas</string>
+    <string name="ingredient_card_title">Ingredientes</string>
+    <string name="preparation_card_title">Preparación</string>
+    <string name="recipe_map_title">Lugar de origen</string>
+    <string name="search_placeholder_text">Busca tu receta o por ingredientes</string>
 </resources>
