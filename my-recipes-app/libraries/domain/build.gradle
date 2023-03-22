@@ -14,7 +14,7 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-    //implementation "androidx.hilt:hilt-navigation-compose:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_version"
 
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     testImplementation "io.mockk:mockk:$mockk_version"
