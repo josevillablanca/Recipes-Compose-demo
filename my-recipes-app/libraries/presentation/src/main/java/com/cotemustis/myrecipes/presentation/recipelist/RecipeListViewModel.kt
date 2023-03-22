@@ -67,6 +67,7 @@ class RecipeListViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch(exceptionHandler) {
+            _searchInputTextState.value = ""
             _isRefreshing.emit(true)
             getRecipesUseCase().collectLatest { result ->
                 _uiState.value = when (result) {
