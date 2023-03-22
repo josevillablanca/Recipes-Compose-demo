@@ -8,6 +8,8 @@ buildscript {
         room_version = '2.5.0'
         glide_version = '4.15.0'
         retrofit_version = '2.9.0'
+        mockk_version = '1.13.3'
+        coroutines_version = '1.6.0'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

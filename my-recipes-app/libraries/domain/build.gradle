@@ -16,6 +16,9 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     //implementation "androidx.hilt:hilt-navigation-compose:$hilt_version"
 
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
