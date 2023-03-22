@@ -6,4 +6,6 @@ sealed class RecipeListUiState {
     object Loading : RecipeListUiState()
     object Error : RecipeListUiState()
     data class ShowRecipes(val recipes: List<Recipe>) : RecipeListUiState()
+    object ErrorSearch : RecipeListUiState()
+
 }

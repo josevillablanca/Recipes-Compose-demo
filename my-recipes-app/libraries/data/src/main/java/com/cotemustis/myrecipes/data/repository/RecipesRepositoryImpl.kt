@@ -35,4 +35,11 @@ internal class RecipesRepositoryImpl @Inject constructor(
 
     override suspend fun getRecipeById(recipeId: Long): ResultState<Recipe> =
         getResult { localDataSource.getRecipeById(recipeId).mapToDomainModel() }
+
+    override suspend fun getRecipesFromSearch(searchText: String): ResultState<List<Recipe>> =
+        getResult {
+            localDataSource.getRecipesFromSearch(searchText)
+                .map(RecipeDatabaseModel::mapToDomainModel)
+        }
+
 }

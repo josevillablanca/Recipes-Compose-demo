@@ -1,10 +1,13 @@
 package com.cotemustis.myrecipes.presentation.recipelist
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -16,8 +19,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -33,33 +37,44 @@ fun RecipeListScreen(
     navController: NavHostController,
     recipeListViewModel: RecipeListViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
-    val searchInputState = remember { mutableStateOf(TextFieldValue("")) }
     val uiState by recipeListViewModel.uiState
+
+    //states for searchview
+    val searchInputState by recipeListViewModel.searchInputTextState
+
+    //for PullRefresh
     val isRefreshing by recipeListViewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullRefreshState(isRefreshing, { recipeListViewModel.refresh() })
 
     Scaffold(
         scaffoldState = scaffoldState
     ) {
-        Box(Modifier.fillMaxSize()) {
-            when (uiState) {
-                RecipeListUiState.Error -> {
-                    ShowErrorView { recipeListViewModel.onRetryLoad() }
-                }
-                RecipeListUiState.Loading -> ShowLoader()
-                is RecipeListUiState.ShowRecipes -> {
-                    Column {
-                        RecipeSearchView(searchInputState)
-                        RecipesListView(
-                            (uiState as RecipeListUiState.ShowRecipes).recipes,
-                            pullRefreshState,
-                            isRefreshing
-                        ) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(pullRefreshState)) {
+            Column {
+                RecipeSearchView(
+                    searchInputState,
+                    onValueChanged = { recipeListViewModel.onSearchInputChanged(it) }
+                )
+                when (uiState) {
+                    RecipeListUiState.Error -> {
+                        ShowErrorView { recipeListViewModel.onRetryLoad() }
+                    }
+                    RecipeListUiState.Loading -> ShowLoader()
+                    is RecipeListUiState.ShowRecipes -> {
+                        RecipesListView((uiState as RecipeListUiState.ShowRecipes).recipes) {
                             navController.navigate(RecipeDetailRoute.createRoute(it.id))
                         }
                     }
+
+                    RecipeListUiState.ErrorSearch -> Toast.makeText(
+                        context,
+                        stringResource(R.string.recipes_list_error_search_text),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
             PullRefreshIndicator(
@@ -97,11 +112,14 @@ fun ShowErrorView(onRetryLoad: () -> Unit) {
 }
 
 @Composable
-fun RecipeSearchView(searchInputState: MutableState<TextFieldValue>) {
+fun RecipeSearchView(
+    searchInputState: String,
+    onValueChanged: (String) -> Unit,
+) {
     TextField(
-        value = searchInputState.value,
-        onValueChange = { value ->
-            searchInputState.value = value
+        value = searchInputState,
+        onValueChange = {
+            onValueChanged(it)
         },
         modifier = Modifier
             .fillMaxWidth()
@@ -124,7 +142,7 @@ fun RecipeSearchView(searchInputState: MutableState<TextFieldValue>) {
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
-        )
+        ),
     )
 }
 
@@ -132,14 +150,11 @@ fun RecipeSearchView(searchInputState: MutableState<TextFieldValue>) {
 @Composable
 fun RecipesListView(
     recipes: List<Recipe>,
-    pullRefreshState: PullRefreshState,
-    isRefreshing: Boolean,
     onItemClick: (Recipe) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.pullRefresh(pullRefreshState)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(recipes) { recipe ->
                 RecipeItemView(recipe) {

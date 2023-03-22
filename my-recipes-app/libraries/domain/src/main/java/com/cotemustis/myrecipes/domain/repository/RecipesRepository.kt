@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface RecipesRepository {
     suspend fun getRecipes(): Flow<ResultState<List<Recipe>>>
     suspend fun getRecipeById(recipeId: Long): ResultState<Recipe>
+    suspend fun getRecipesFromSearch(searchText: String): ResultState<List<Recipe>>
 }
