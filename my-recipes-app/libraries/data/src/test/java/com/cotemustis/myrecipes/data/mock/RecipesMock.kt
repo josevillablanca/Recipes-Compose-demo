@@ -2,6 +2,7 @@ package com.cotemustis.myrecipes.data.mock
 
 import com.cotemustis.myrecipes.data.database.model.RecipeDatabaseModel
 import com.cotemustis.myrecipes.data.network.model.RecipeNetworkModel
+import com.cotemustis.myrecipes.data.network.model.RecipesNetworkResponse
 
 internal object RecipesMock {
     val recipesDatabaseModelListMock = listOf(
@@ -81,6 +82,8 @@ internal object RecipesMock {
             preparation = "Preparacion 4"
         )
     )
+    val recipesNetworkResponse: RecipesNetworkResponse =
+        RecipesNetworkResponse(recipesNetworkModelListMock)
 }
 
 
