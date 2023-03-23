@@ -6,4 +6,6 @@
     <string name="search_placeholder_text">Busca tu receta o por ingredientes</string>
     <string name="recipes_list_error_text">Hubo un error en tu solicitud, intenta nuevamente</string>
     <string name="retry">Reintentar</string>
+    <string name="recipe_detail_error_text">Hubo un error mostrando la receta</string>
+    <string name="recipes_list_error_search_text">Hubo un error al filtrar por la búsqueda realizada</string>
 </resources>

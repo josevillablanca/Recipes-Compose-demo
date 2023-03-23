@@ -14,4 +14,13 @@ internal class RecipesLocalDataSourceImpl @Inject constructor(
     override suspend fun insertRecipes(recipes: List<RecipeDatabaseModel>) =
         recipesDao.updateOrInsertRecipes(recipes)
 
+    override suspend fun getRecipeById(recipeId: Long): RecipeDatabaseModel =
+        recipesDao.getRecipeById(recipeId)
+
+    override suspend fun getRecipesFromSearch(searchText: String): List<RecipeDatabaseModel> {
+        val text = "%$searchText%"
+        return recipesDao.getRecipesFromSearch(text)
+    }
+
+
 }
