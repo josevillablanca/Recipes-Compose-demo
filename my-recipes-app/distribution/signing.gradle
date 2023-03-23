@@ -1,0 +1,18 @@
+android {
+    def keystorePropertiesFile = rootProject.file("distribution/keystore/rm.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("STORE_FILE") ?: keystoreProperties['keystore'])
+            storePassword System.getenv("STORE_PASSWORD") ?: keystoreProperties['keystorePassword']
+            keyAlias System.getenv("KEY_ALIAS") ?: keystoreProperties['keyAlias']
+            keyPassword System.getenv("KEY_PASSWORD") ?: keystoreProperties['keyAliasPassword']
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+}
