@@ -5,6 +5,8 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+apply from: "$rootProject.rootDir/distribution/signing.gradle"
+
 android {
     namespace 'com.cotemustis.myrecipes'
     compileSdk 33
