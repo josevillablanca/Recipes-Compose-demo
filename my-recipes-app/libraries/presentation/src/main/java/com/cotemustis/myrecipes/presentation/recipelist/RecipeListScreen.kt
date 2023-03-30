@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.cotemustis.myrecipes.domain.model.Recipe
 import com.cotemustis.myrecipes.presentation.R
@@ -45,7 +46,7 @@ fun RecipeListScreen(
     val searchInputState by recipeListViewModel.searchInputTextState
 
     //for PullRefresh
-    val isRefreshing by recipeListViewModel.isRefreshing.collectAsState()
+    val isRefreshing by recipeListViewModel.isRefreshing.collectAsStateWithLifecycle()
     val pullRefreshState = rememberPullRefreshState(isRefreshing, { recipeListViewModel.refresh() })
 
     Scaffold(
