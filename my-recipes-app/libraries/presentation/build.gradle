@@ -25,6 +25,7 @@ android {
             excludes += 'META-INF/*'
         }
     }
+    namespace 'com.cotemustis.myrecipes.presentation'
 }
 
 dependencies {
