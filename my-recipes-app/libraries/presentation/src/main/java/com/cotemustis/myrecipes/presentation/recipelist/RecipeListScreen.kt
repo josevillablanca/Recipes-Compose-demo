@@ -6,13 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
@@ -21,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -52,9 +48,11 @@ fun RecipeListScreen(
     Scaffold(
         scaffoldState = scaffoldState
     ) {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .pullRefresh(pullRefreshState)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .pullRefresh(pullRefreshState)
+        ) {
             Column {
                 RecipeSearchView(
                     searchInputState,
@@ -64,6 +62,7 @@ fun RecipeListScreen(
                     RecipeListUiState.Error -> {
                         ShowErrorView { recipeListViewModel.onRetryLoad() }
                     }
+
                     RecipeListUiState.Loading -> ShowLoader()
                     is RecipeListUiState.ShowRecipes -> {
                         RecipesListView((uiState as RecipeListUiState.ShowRecipes).recipes) {
